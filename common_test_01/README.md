@@ -23,6 +23,7 @@ common_test_01/
 │   ├── AUC.png  # ROC curve visualization
 │   ├── Accuracies.png  # Accuracy trends over epochs
 │   ├── losses.png  # Loss curves over epochs
+│   ├── sampels.png  # Samples from each class
 ```
 
 ### 🛠 Model and Approach
