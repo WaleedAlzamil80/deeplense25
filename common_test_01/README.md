@@ -56,3 +56,11 @@ I fine-tuned a **Vision Transformer (ViT-Tiny)** for this classification task. T
   ![Accuracy Curve](assets/Accuracies.png)
 - **AUC Curve** (*99% on validation*)
   ![AUC Curve](assets/AUC.png)
+
+### 🚀 **Running the Code**  
+1. Open `common-test-01.ipynb` in Jupyter Notebook.  
+2. Run all cells to train the models.  
+3. Model checkpoints will be saved in `best_vit_model.pth`.
+
+### 📬 **Submission Details**  
+This task is part of my DeepLense GSoC 2025 submission.
