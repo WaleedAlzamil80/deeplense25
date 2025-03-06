@@ -49,9 +49,9 @@ I fine-tuned a **Vision Transformer (ViT-Tiny)** for this classification task. T
 - **Accuracy**
 
 #### 📉 Training Metrics
-- **Loss Curve**  
-  ![Loss Curve](assets/losses.png)
-- **Accuracy Over Epochs**  
+- **Loss Curve**
+  ![Loss Curve](assets/Losses.png)
+- **Accuracy Over Epochs** (*93% on validation*)
   ![Accuracy Curve](assets/Accuracies.png)
-- **AUC Curve**  
+- **AUC Curve** (*99% on validation*)
   ![AUC Curve](assets/AUC.png)
