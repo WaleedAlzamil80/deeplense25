@@ -11,7 +11,7 @@ The goal is to train a model that classifies images into one of three classes:
 The dataset was preprocessed using **min-max normalization**, and I explored data augmentation techniques to improve performance.
 
 #### 📷 Sample Images from Each Class
-![Sample Images](assets/sample_classes.png)
+![Sample Images](assets/samples.png)
 
 ### 📂 Folder Structure
 ```
