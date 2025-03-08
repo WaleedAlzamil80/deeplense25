@@ -17,7 +17,7 @@ The dataset was preprocessed using **min-max normalization**, and I explored dat
 ```
 common_test_01/
 │── README.md  (This file)
-│── common-test-i-multi-class-classification.ipynb  # Jupyter Notebook with implementation
+│── common-test-01.ipynb  # Jupyter Notebook with implementation
 │── best_vit_model.pth  # Best trained ViT model
 │── assets/
 │   ├── AUC.png  # ROC curve visualization

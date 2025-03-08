@@ -9,6 +9,13 @@ The test consists of two main parts:
    - For **multi-class classification** (distinguishing between no_sub, cdm, and axion).  
    - For **super-resolution** (upscaling low-resolution images using high-resolution ground truths).  
 
+#### 📷 Sample Images for Each Task
+- **Samples for multi-class classification**
+   ![Sample Images](assets/classSample.png)
+
+- **Samples for super-resolution**
+   ![Sample Images](assets/superRsample.png)
+
 ### 📂 **Folder Structure**  
 ```
 specific_test_06/
@@ -22,6 +29,16 @@ specific_test_06/
 │   ├── classification_roc.png  # ROC curve for classification
 │   ├── superres_comparison.png  # Example outputs from super-resolution
 ```
+
+### **Prepate Data for Masked Autoencoder (MAE) Pretraining**  
+
+#### **Input for Encoder**
+- **Sample for splitted-image**
+   ![Sample Images](assets/splitted_image.png)
+
+- **Sample for masked-image**
+   ![Sample Images](assets/masked_image.png)
+
 
 ### 🛠 **Model and Approach**  
 #### **1️⃣ Masked Autoencoder (MAE) Pretraining**
