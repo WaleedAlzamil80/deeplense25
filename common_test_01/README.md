@@ -50,12 +50,14 @@ I fine-tuned a **Vision Transformer (ViT-Tiny)** for this classification task. T
 - **Accuracy**
 
 #### 📉 Training Metrics
-- **Loss Curve**
+- **Loss Over Epochs**
   ![Loss Curve](assets/Losses.png)
 - **Accuracy Over Epochs** (*93% on validation*)
   ![Accuracy Curve](assets/Accuracies.png)
-- **AUC Curve** (*99% on validation*)
+- **AUC Over Epochs** (*99% on validation*)
   ![AUC Curve](assets/AUC.png)
+- **ROC Curve for best model**
+  ![AUC Curve](assets/ROC_curve.png)
 
 ### 🚀 **Running the Code**  
 1. Open `common-test-01.ipynb` in Jupyter Notebook.  

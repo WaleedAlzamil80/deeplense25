@@ -6,21 +6,21 @@ import matplotlib.pyplot as plt
 
 def image_to_patches(image, patch_size=16):
     """Convert a grayscale image into non-overlapping patches"""
-    transform = transforms.Compose([
-        transforms.Resize((224, 224)),  # Resize to 224x224
-        transforms.ToTensor(),          # Convert to Tensor
-        transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize grayscale image
-    ])
+    #transform = transforms.Compose([
+    #    transforms.Resize((150, 150)),
+    #    transforms.ToTensor(),          # Convert to Tensor
+    #    transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize grayscale image
+    #])
 
-    img_tensor = transform(image).unsqueeze(0)  # Add batch dimension
-
+    #img_tensor = transform(image).unsqueeze(0)  # Add batch dimension
+    img_tensor = image
     _, C, H, W = img_tensor.shape
     num_patches = (H // patch_size) * (W // patch_size)
 
     # Split into patches
     img_patches = img_tensor.unfold(2, patch_size, patch_size) # [1, 1, 224, 224] -> [1, 1, 14, 224, 16]
     img_patches = img_patches.unfold(3, patch_size, patch_size)  # [1, 1, 14, 224, 16] -> [1, 1, 14, 14, 16, 16]
-    img_patches = img_patches.contiguous().view(1, num_patches, -1)  # Flatten patches [1, 1, 14, 14, 16, 16] -> [1, 196, 256]
+    img_patches = img_patches.contiguous().view(-1, num_patches, patch_size * patch_size)  # Flatten patches [1, 1, 14, 14, 16, 16] -> [1, 196, 256]
 
     return img_patches
 
@@ -37,6 +37,7 @@ def show_sample_images(dataset_path, class_names, num_samples=6):
             img = np.load(os.path.join(class_dir, files[j]), allow_pickle=True)
             if class_name == "axion":
                 img = img[0]
+            print(class_name, " ", img.shape)
             img = img.squeeze()  # Remove channel dim (1, H, W) -> (H, W)
             axes[i, j].imshow(img, cmap="gray")
             axes[i, j].axis("off")
@@ -60,14 +61,16 @@ def random_masking(x, mask_ratio=0.75):
     masked_indices = indices[:, :num_masked]
 
     # Select the visible patches
+    # print("gather: ", x.shape, " from dim = 1, Index: ", visible_indices.shape, visible_indices.unsqueeze(-1).shape, visible_indices.unsqueeze(-1).expand(-1, -1, dim).shape)
+    # gather:  torch.Size([1, 196, 256])  from dim = 1, Index:  torch.Size([1, 49]) torch.Size([1, 49, 1]) torch.Size([1, 49, 256])
+    # the specified dimention is the dimention that is repeated or extended other dimentions are fixed
+    # so we gather from patches dimention 1
+
     visible_patches = torch.gather(x, dim=1, index=visible_indices.unsqueeze(-1).expand(-1, -1, dim))
-    # print(visible_indices.shape) # [batch, indices]
-    # print(masked_indices.shape) # [batch, indices]
-    # print(indices.shape) # [batch, indices]
-    # print(visible_patches.shape) # [batch, indices]
+
     return visible_patches, masked_indices, visible_indices
 
-def visualize_patches(visible_patches, visible_indices, original_size=(224, 224), patch_size=16):
+def visualize_patches(visible_patches, visible_indices, original_size=(150, 150), patch_size=16, title="Reconstructed Image from Visible Patches"):
     """
     Visualizes the visible patches by reconstructing them into a grid.
     
@@ -104,5 +107,5 @@ def visualize_patches(visible_patches, visible_indices, original_size=(224, 224)
     plt.figure(figsize=(6, 6))
     plt.imshow(reconstructed_image, cmap="gray")
     plt.axis("off")
-    plt.title("Reconstructed Image from Visible Patches")
+    plt.title(title)
     plt.show()
