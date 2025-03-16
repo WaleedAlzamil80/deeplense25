@@ -94,6 +94,7 @@ specific_test_06/
 - **Batch Size:** *256*
 - **Evaluation Metrics:** MSE, SSIM, PSNR  
 - **Epochs:** *200*
+- **NOTE** The Decoder used here is not suitable for images and especially for super-resolution tasks. So we need more work on the architecture
 
 ### 📊 **Results**  
 Below are the evaluation results for each task:  
@@ -135,20 +136,20 @@ weighted avg       0.97      0.97      0.97      8911
   ![SSIM](assets/superresolution/SSIM.png)
   ![MSE](assets/superresolution/MAE_Losses.png)
 
-- **Final Metrics**  
-- Final Validation MSE: 0.004780
-- Final Validation PSNR: 26.42
-- Final Validation SSIM: 0.8964
+- **Final Metrics** *these results from best SSIM model **superresolution_SSIM** and it's very close to **superresolution_PSNR***
+     - Final Validation MSE: 0.002293
+     - Final Validation PSNR: 29.62
+     - Final Validation SSIM: 0.9190
 
 - **Super-resolution comparison**  
   - Low-res, predicted high-res, and ground truth  
     | ![LR](assets/superresolution/lr_image.png) | ![Predicted](assets/superresolution/superResoluted.png) | ![HR](assets/superresolution/hr_image.png) |
     |------------|------------|-------------|
-  
+
 ### 🚀 **Running the Code**  
 1. Open any `*.ipynb` in Jupyter Notebook.
 2. Run all cells to train the models.
 3. Model checkpoints will be saved in `*.pth`.
 
-### 📬 **Submission Details**  
+### 📬 **Submission Details**
 This task is part of my DeepLense GSoC 2025 submission.

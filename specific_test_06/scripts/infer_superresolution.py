@@ -131,7 +131,6 @@ def evaluate_model(model_path, val_loader, device, save_dir):
     model.eval()
     
     val_losses, val_psnrs, val_ssims = [], [], []
-    
     with torch.no_grad():
         for lr_images, hr_images in tqdm(val_loader, desc='Evaluating Model'):
             plt.imsave("hr_image.png", hr_images[0].cpu().detach().view(150, 150).numpy(), cmap="gray")
@@ -149,7 +148,7 @@ def evaluate_model(model_path, val_loader, device, save_dir):
             val_losses.append(mse.mean().item())
             val_psnrs.append(batch_psnr.mean().item())
             val_ssims.append(batch_ssim.mean().item())
-    
+
     # Save results
     epochs = range(1, len(val_losses) + 1)
     os.makedirs(save_dir, exist_ok=True)
@@ -231,4 +230,4 @@ if __name__ == "__main__":
     val_loader = DataLoader(val_dataset, batch_size=32, num_workers=10, shuffle=False)
     
     save_dir = "/home/waleed/Documents/deeplense25"
-    evaluate_model("/home/waleed/Documents/deeplense25/specific_test_06/models/checkpoints/superresolution_PSNR.pth", val_loader, "cuda", save_dir)
+    evaluate_model("/home/waleed/Documents/deeplense25/specific_test_06/models/checkpoints/best_vit_PSNR_model.pth", val_loader, "cuda", save_dir)
