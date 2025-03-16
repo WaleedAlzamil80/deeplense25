@@ -68,8 +68,9 @@ specific_test_06/
    ![Sample Images](assets/mae/masked_image.png)
 
 - **Masked pathces and Visible patches**
-| ![Masked Image](assets/mae/masked_patches.png) | ![EncoderInput](assets/mae/visible_patches.png) |
-|------------|-------------|
+
+   | ![Masked Image](assets/mae/masked_patches.png) | ![EncoderInput](assets/mae/visible_patches.png) |
+   |------------|-------------|
 
 
 ### 🛠 **Model and Approach**  
@@ -111,6 +112,7 @@ Below are the evaluation results for each task:
   ![AUC Metrics](assets/classification/AUC.png)
 
 - **Classification Report**
+```
               precision    recall  f1-score   support
 
       no_sub       0.97      0.99      0.98      2945
@@ -120,6 +122,7 @@ Below are the evaluation results for each task:
     accuracy                           0.97      8911
    macro avg       0.97      0.97      0.97      8911
 weighted avg       0.97      0.97      0.97      8911
+```
 
 - **Confusion Matrix**
   ![ROC Metrics](assets/classification/ROC_curve.png)
