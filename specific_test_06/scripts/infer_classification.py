@@ -1,6 +1,6 @@
 import sys
 import os
-sys.path.append('/home/waleed/Documents/deeplense25')
+sys.path.append('/home/waleed/Documents/deeplense25/specific_test_06')
 from PIL import Image
 from glob import glob
 import matplotlib.pyplot as plt
@@ -11,10 +11,9 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
-from specific_test_06.utils.Dataset import NPYClassificationDataset
+from utils.Dataset import NPYClassificationDataset
 from tqdm import tqdm
-from specific_test_06.utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
-from models.mae import MAEViT
+from utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
 from utils.helpful import print_trainable_parameters
 from models.classifier import ClassifierViT
 
@@ -35,7 +34,7 @@ val_transforms = transforms.Compose([
 ])
 
 dataset_root = "/home/waleed/Downloads/GSoC25_ML4SC/SpecificTest_06_A/Dataset/"
-save_dir = "/home/waleed/Documents/deeplense25/specific_test_06/specific_test_06_A/assets"
+save_dir = "/home/waleed/Documents/deeplense25"
 
 axion_files = sorted(glob(os.path.join(dataset_root, "axion", "*.npy")))
 no_sub_files = sorted(glob(os.path.join(dataset_root, "no_sub", "*.npy")))
@@ -67,11 +66,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ClassifierViT(base="tiny", embed_dim = 192, input_dim=input_dim, num_patches=num_patches)
 model = nn.DataParallel(model.to(device))
 
-print("masked patches: ", int(0.75*225))
-print("visible patches: ", num_patches - int(0.75*225))
 print_trainable_parameters(model)
 
-base_model = "/home/waleed/Documents/deeplense25/specific_test_06/specific_test_06_A/best_fine_tuned_vit_model_clas.pth"
+base_model = "/home/waleed/Documents/deeplense25/specific_test_06/models/checkpoints/classifier.pth"
 state_dict = torch.load(base_model, map_location=device, weights_only=True)
 model.load_state_dict(state_dict)
 
@@ -81,9 +78,12 @@ from sklearn.metrics import roc_curve, auc, roc_auc_score
 from sklearn.preprocessing import label_binarize
 from itertools import cycle
 import seaborn as sns
+from sklearn.metrics import classification_report, confusion_matrix
 
 all_probs_test = []
 all_labels_test = []
+all_predicted_test = []
+
 val_correct, val_total = 0, 0
 
 with torch.no_grad():
@@ -98,11 +98,30 @@ with torch.no_grad():
         val_total += batch_labels.size(0)
 
         probs = torch.softmax(outputs, dim=1)
+        all_predicted_test.extend(predicted.cpu().detach().numpy())
         all_probs_test.extend(probs.cpu().detach().numpy())
         all_labels_test.extend(batch_labels.cpu().numpy())
 
 val_acc = val_correct / val_total
 print(f"Accuracy: {(val_acc*100):.2f}%")
+
+# Classification report
+print("Classification Report:")
+print(classification_report(all_labels_test, all_predicted_test, target_names=['no_sub', 'axion', 'cdm']))
+
+# Confusion Matrix
+conf_matrix = confusion_matrix(all_labels_test, all_predicted_test)
+print("Confusion Matrix:")
+print(conf_matrix)
+
+# Plot confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=np.unique(all_labels_test), yticklabels=np.unique(all_labels_test))
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title("Confusion Matrix")
+plt.savefig(os.path.join(save_dir, 'confusion_matrix.png'))
+plt.show()
 
 # Step 1: Binarize the labels
 all_labels_test = np.array(all_labels_test)

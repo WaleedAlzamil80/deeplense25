@@ -4,6 +4,8 @@ This repository contains my submissions for the **DeepLense GSoC 2025 evaluation
 - **Common Test I: Multi-Class Classification**  
 - **Specific Test VI: Foundation Model**  
 
+**NOTE: Scripts are hardcoded, I will modify them to parse the parameters and pathes from the terminal**
+
 ## 📌 **Project Overview**  
 DeepLense aims to leverage machine learning for gravitational lensing research. This repository contains my implementations of the required tests using **PyTorch**.  
 

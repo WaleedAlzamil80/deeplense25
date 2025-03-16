@@ -1,7 +1,7 @@
 import math
 import torch
 from torch import nn
-from mae import EncoderViT, MAEDecoder
+from models.mae import EncoderViT, MAEDecoder
 
 # Define the Encoder (ViT model)
 class SuperResolutionViT(nn.Module):

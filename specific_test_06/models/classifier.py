@@ -1,7 +1,7 @@
 import math
 import torch
 from torch import nn
-from mae import EncoderViT, MAEDecoder
+from models.mae import EncoderViT
 
 class AttentionPooling(nn.Module):
     def __init__(self, embed_dim):

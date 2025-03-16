@@ -67,7 +67,7 @@ specific_test_06/
 - **Sample for masked-image**
    ![Sample Images](assets/mae/masked_image.png)
 
-|------------|-------------|
+- **Masked pathces and Visible patches**
 | ![Masked Image](assets/mae/masked_patches.png) | ![EncoderInput](assets/mae/visible_patches.png) |
 |------------|-------------|
 
@@ -94,13 +94,58 @@ specific_test_06/
 - **Evaluation Metrics:** MSE, SSIM, PSNR  
 - **Epochs:** *200*
 
-### 📊 **Results**
-- I Will add all results and images from assets 
+### 📊 **Results**  
+Below are the evaluation results for each task:  
 
+#### **1️⃣ Masked Autoencoder (MAE) Pretraining**  
+- **Training Loss (MSE) over 250 epochs**  
+  ![MAE Loss](assets/mae/MAE_Losses.png)  
+- **PCA and TSNE on the embedding**  
+  - Hidder representation:  
+    ![pca](assets/mae/pca_plot.png)  
+    ![tsne](assets/mae/tsne_plot.png)
+
+#### **2️⃣ Multi-Class Classification**  
+- **Accuracy & AUC Score over epochs**  
+  ![Accuracy Metrics](assets/classification/Accuracies.png)
+  ![AUC Metrics](assets/classification/AUC.png)
+
+- **Classification Report**
+              precision    recall  f1-score   support
+
+      no_sub       0.97      0.99      0.98      2945
+       axion       0.98      0.97      0.97      2990
+         cdm       0.97      0.95      0.96      2976
+
+    accuracy                           0.97      8911
+   macro avg       0.97      0.97      0.97      8911
+weighted avg       0.97      0.97      0.97      8911
+
+- **Confusion Matrix**
+  ![ROC Metrics](assets/classification/ROC_curve.png)
+  ![Confusion Matrix](assets/classification/confusion_matrix.png)  
+
+
+#### **3️⃣ Super-Resolution**
+- **MSE, SSIM, PSNR over epochs**  
+  ![PSNR](assets/superresolution/PSNR.png)
+  ![SSIM](assets/superresolution/SSIM.png)
+  ![MSE](assets/superresolution/MAE_Losses.png)
+
+- **Final Metrics**  
+- Final Validation MSE: 0.004780
+- Final Validation PSNR: 26.42
+- Final Validation SSIM: 0.8964
+
+- **Super-resolution comparison**  
+  - Low-res, predicted high-res, and ground truth  
+    | ![LR](assets/superresolution/lr_image.png) | ![Predicted](assets/superresolution/superResoluted.png) | ![HR](assets/superresolution/hr_image.png) |
+    |------------|------------|-------------|
+  
 ### 🚀 **Running the Code**  
-1. Open any `*.ipynb` in Jupyter Notebook.  
-2. Run all cells to train the models.  
-3. Model checkpoints will be saved in `best_mae_model.pth`, `best_finetuned_model.pth`, and `best_superres_model.pth`.  
+1. Open any `*.ipynb` in Jupyter Notebook.
+2. Run all cells to train the models.
+3. Model checkpoints will be saved in `*.pth`.
 
 ### 📬 **Submission Details**  
 This task is part of my DeepLense GSoC 2025 submission.
