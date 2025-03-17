@@ -12,10 +12,15 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import torchvision.transforms as transforms
 from utils.Dataset import NPYClassificationDataset
-from tqdm import tqdm
 from utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
 from utils.helpful import print_trainable_parameters
+from utils.vis import save_tsne, save_pca
 from models.classifier import ClassifierViT
+from sklearn.preprocessing import label_binarize
+from itertools import cycle
+import seaborn as sns
+from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import roc_curve, auc, roc_auc_score
 
 train_transforms = transforms.Compose([
     # transforms.CenterCrop(100),
@@ -63,22 +68,20 @@ patch_size = 10
 input_dim = patch_size**2
 num_patches = int(150/patch_size)**2
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = ClassifierViT(base="tiny", embed_dim = 192, input_dim=input_dim, num_patches=num_patches)
-model = nn.DataParallel(model.to(device))
+model = ClassifierViT(base="tiny", embed_dim = 192, input_dim=input_dim, num_patches=num_patches).to(device)
+# model = nn.DataParallel(model.to(device))
 
 print_trainable_parameters(model)
 
 base_model = "/home/waleed/Documents/deeplense25/specific_test_06/models/checkpoints/classifier.pth"
 state_dict = torch.load(base_model, map_location=device, weights_only=True)
-model.load_state_dict(state_dict)
+from collections import OrderedDict
+new_state_dict = OrderedDict()
+for k, v in state_dict.items():
+    new_key = k.replace("module.", "")
+    new_state_dict[new_key] = v
 
-
-import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc, roc_auc_score
-from sklearn.preprocessing import label_binarize
-from itertools import cycle
-import seaborn as sns
-from sklearn.metrics import classification_report, confusion_matrix
+model.load_state_dict(new_state_dict)
 
 all_probs_test = []
 all_labels_test = []
@@ -102,8 +105,12 @@ with torch.no_grad():
         all_probs_test.extend(probs.cpu().detach().numpy())
         all_labels_test.extend(batch_labels.cpu().numpy())
 
+# ls = torch.cat(model.list, dim=0)
+# save_pca(ls, all_labels_test)
+# save_tsne(ls, all_labels_test)
+
 val_acc = val_correct / val_total
-print(f"Accuracy: {(val_acc*100):.2f}%")
+print(f"Accuracy: {(val_acc*100):.6f}%")
 
 # Classification report
 print("Classification Report:")
@@ -168,5 +175,5 @@ print(f"AUC (One-vs-Rest, macro-average): {val_auc:.2f}")
 # Optional: Compute AUC with different averaging methods
 val_auc_micro = roc_auc_score(all_labels_test, all_probs_test, multi_class='ovr', average='micro')
 val_auc_weighted = roc_auc_score(all_labels_test, all_probs_test, multi_class='ovr', average='weighted')
-print(f"AUC (One-vs-Rest, micro-average): {val_auc_micro:.2f}")
-print(f"AUC (One-vs-Rest, weighted-average): {val_auc_weighted:.2f}")
+print(f"AUC (One-vs-Rest, micro-average): {val_auc_micro:.4f}")
+print(f"AUC (One-vs-Rest, weighted-average): {val_auc_weighted:.4f}")

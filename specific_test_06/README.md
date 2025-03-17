@@ -129,6 +129,9 @@ weighted avg       0.97      0.97      0.97      8911
   ![ROC Metrics](assets/classification/ROC_curve.png)
   ![Confusion Matrix](assets/classification/confusion_matrix.png)  
 
+- **PCA & tsne plotting**
+    | ![PCA](assets/classification/pca_plot.png) | ![tsne](assets/classification/tsne_plot.png) |
+    |------------|------------|
 
 #### **3️⃣ Super-Resolution**
 - **MSE, SSIM, PSNR over epochs**  

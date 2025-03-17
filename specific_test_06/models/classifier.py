@@ -27,6 +27,7 @@ class ClassifierViT(nn.Module):
         self.embedInput = nn.Linear(input_dim, self.embed_dim)
         self.encoder = EncoderViT(base=base, p=p)
         self.num_patches = num_patches
+        # self.list = []
         # Load saved components
         ## checkpoint = torch.load("/kaggle/input/specific_task_06/pytorch/default/2/encoder_embedInput.pth", weights_only=True)
         ## self.embedInput.load_state_dict(checkpoint["embedInput"])
@@ -52,6 +53,7 @@ class ClassifierViT(nn.Module):
         
         x = self.encoder(x)
         x = self.attnetion_pool(x)
+        # self.list.append(x.detach().cpu())
         x = self.classifier(x)
         return x
 
