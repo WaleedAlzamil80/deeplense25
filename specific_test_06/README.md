@@ -104,13 +104,13 @@ Below are the evaluation results for each task:
   ![MAE Loss](assets/mae/MAE_Losses.png)  
 - **PCA and TSNE on the embedding**  
   - Hidder representation:  
-    ![pca](assets/mae/pca_plot.png)  
-    ![tsne](assets/mae/tsne_plot.png)
+    | ![pca](assets/mae/pca_plot.png) | ![tsne](assets/mae/tsne_plot.png) |
+    |------------|------------|
 
 #### **2️⃣ Multi-Class Classification**  
 - **Accuracy & AUC Score over epochs**  
-  ![Accuracy Metrics](assets/classification/Accuracies.png)
-  ![AUC Metrics](assets/classification/AUC.png)
+    | ![Accuracy Metrics](assets/classification/Accuracies.png) | ![AUC Metrics](assets/classification/AUC.png) |
+    |------------|------------|
 
 - **Classification Report**
 ```
@@ -125,24 +125,39 @@ Below are the evaluation results for each task:
 weighted avg       0.97      0.97      0.97      8911
 ```
 
-- **Confusion Matrix**
-  ![ROC Metrics](assets/classification/ROC_curve.png)
-  ![Confusion Matrix](assets/classification/confusion_matrix.png)  
+- **Confusion Matrix and ROC Curve**
+    | ![ROC Metrics](assets/classification/ROC_curve.png) | ![Confusion Matrix](assets/classification/confusion_matrix.png) |
+    |------------|------------|
 
 - **PCA & tsne plotting**
     | ![PCA](assets/classification/pca_plot.png) | ![tsne](assets/classification/tsne_plot.png) |
     |------------|------------|
 
 #### **3️⃣ Super-Resolution**
-- **MSE, SSIM, PSNR over epochs**  
-  ![PSNR](assets/superresolution/PSNR.png)
-  ![SSIM](assets/superresolution/SSIM.png)
+- **MSE as a loss, SSIM, PSNR over epochs**
+      | ![SSIM](assets/superresolution/SSIM.png) | ![PSNR](assets/superresolution/PSNR.png) |
+    |------------|------------|
   ![MSE](assets/superresolution/MAE_Losses.png)
 
 - **Final Metrics** *these results from best SSIM model **superresolution_SSIM** and it's very close to **superresolution_PSNR***
      - Final Validation MSE: 0.002293
      - Final Validation PSNR: 29.62
      - Final Validation SSIM: 0.9190
+##### **Interpretation**
+
+- Lower **MSE** means better reconstruction (less error).
+- If MSE = 0, the images are identical.
+
+- Higher **PSNR** means better quality.
+- **Typical values:**
+  - **30-50 dB** → Good quality
+  - **20-30 dB** → Moderate quality
+  - **<20 dB** → Poor quality
+- If PSNR → ∞, it means the images are **identical** (MSE = 0).
+
+- **SSIM = 1** → Identical images.
+- **SSIM close to 0** → No structural similarity.
+- Unlike MSE and PSNR, **SSIM aligns more with human perception**.
 
 - **Super-resolution comparison**  
   - Low-res, predicted high-res, and ground truth  

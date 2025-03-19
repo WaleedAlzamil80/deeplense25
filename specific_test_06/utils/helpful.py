@@ -14,16 +14,8 @@ def print_trainable_parameters(model):
     print(f"trainable params: {trainable_params} || all params: {all_param} || trainable%: {100 * trainable_params / all_param}")
 
 
-def image_to_patches(image, patch_size=16):
+def image_to_patches(img_tensor, patch_size=16):
     """Convert a grayscale image into non-overlapping patches"""
-    #transform = transforms.Compose([
-    #    transforms.Resize((150, 150)),
-    #    transforms.ToTensor(),          # Convert to Tensor
-    #    transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize grayscale image
-    #])
-
-    #img_tensor = transform(image).unsqueeze(0)  # Add batch dimension
-    img_tensor = image
     _, C, H, W = img_tensor.shape
     num_patches = (H // patch_size) * (W // patch_size)
 

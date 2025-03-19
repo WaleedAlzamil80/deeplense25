@@ -23,12 +23,6 @@ class NPYDataset(Dataset):
 
 class NPYClassificationDataset(Dataset):
     def __init__(self, file_paths, labels, transform=None):
-        """
-        Args:
-            file_paths (list): List of file paths to .npy files.
-            labels (list): Corresponding labels for classification.
-            transform (callable, optional): Optional transform to be applied on an image.
-        """
         self.file_paths = file_paths
         self.labels = labels
         self.transform = transform
