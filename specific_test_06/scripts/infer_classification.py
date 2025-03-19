@@ -7,14 +7,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 from utils.Dataset import NPYClassificationDataset
-from utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
+from utils.helpful import image_to_patches
 from utils.helpful import print_trainable_parameters
-from utils.vis import save_tsne, save_pca
 from models.classifier import ClassifierViT
 from sklearn.preprocessing import label_binarize
 from itertools import cycle

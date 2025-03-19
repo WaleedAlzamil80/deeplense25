@@ -1,22 +1,17 @@
 import sys
 import os
-sys.path.append('/home/waleed/Documents/deeplense25')
+sys.path.append('/home/waleed/Documents/deeplense25/specific_test_06')
 from PIL import Image
 from glob import glob
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.model_selection import train_test_split
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
-from specific_test_06.utils.Dataset import NPYDataset
-from tqdm import tqdm
-from specific_test_06.utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
+from utils.Dataset import NPYDataset
+from utils.helpful import image_to_patches
 from models.mae import MAEViT
-from utils.helpful import print_trainable_parameters
-
 
 train_transforms = transforms.Compose([
     # transforms.CenterCrop(100),
@@ -70,13 +65,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 model = MAEViT(base="tiny", embed_dim=192, input_dim=input_dim, num_patches=num_patches).to(device)
 model = nn.DataParallel(model)
-base_model = "/home/waleed/Documents/deeplense25/specific_test_06/ran/best_vit_MAE_model.pth"
+base_model = "/home/waleed/Documents/deeplense25/specific_test_06/models/checkpoints/mae.pth"
 state_dict = torch.load(base_model, map_location=device, weights_only=True)
 model.load_state_dict(state_dict)
 
 for images in val_loader:
     images = images.to(device)
-    plt.imsave("original_image.png", images[0].cpu().detach().view(150, 150).numpy(), cmap="gray")
+    # plt.imsave("original_image.png", images[0].cpu().detach().view(150, 150).numpy(), cmap="gray")
 
     images = image_to_patches(images, 10)
     output, mask = model(images)

@@ -2,7 +2,6 @@ import os
 from PIL import Image
 from glob import glob
 
-import numpy as np
 from sklearn.model_selection import train_test_split
 import torch
 import torch.nn as nn
@@ -14,7 +13,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
 from tqdm import tqdm
-from specific_test_06.utils.helpful import image_to_patches, show_sample_images, random_masking, visualize_patches
+from specific_test_06.utils.helpful import image_to_patches
 from models.mae import MAEViT
 from utils.helpful import print_trainable_parameters
 
